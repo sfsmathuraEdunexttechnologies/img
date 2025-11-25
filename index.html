@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>One-Time Image Viewer</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <style>
+        body {
+            font-family: Arial;
+            text-align: center;
+            margin: 0;
+            padding: 20px;
+            background: #f7f7f7;
+        }
+
+        #secretImage {
+            width: 100%;
+            max-width: 450px;
+            height: auto;
+            display: none;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+        }
+
+        input {
+            padding: 12px;
+            width: 80%;
+            max-width: 300px;
+            font-size: 18px;
+            border-radius: 10px;
+            border: 1px solid #aaa;
+            outline: none;
+            text-align: center;
+            margin-bottom: 15px;
+        }
+
+        button {
+            padding: 12px 24px;
+            font-size: 18px;
+            border: none;
+            border-radius: 10px;
+            background: #007bff;
+            color: white;
+            cursor: pointer;
+        }
+
+        button:active {
+            transform: scale(0.97);
+        }
+
+        #lockArea {
+            margin-bottom: 25px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h2>eu78/234acvrt/yuio90</h2>
+
+    <!-- LOGIN / LOCK SCREEN -->
+    <div id="lockArea">
+        <p>Enter 10-digit Unlock Code:</p>
+        <input type="text" id="unlockCode" maxlength="10" placeholder="**********">
+        <br>
+        <button onclick="unlock()">Unlock</button>
+    </div>
+
+    <img id="secretImage" src="WhatsApp Image 2025-11-25 at 17.42.32_b8345862.jpg" alt="secret">
+    <div id="message"></div>
+
+    <script>
+        const CORRECT_CODE = "5302428445"; // 🔒 SET YOUR 10-DIGIT CODE HERE
+
+        const image = document.getElementById("secretImage");
+        const message = document.getElementById("message");
+        const lockArea = document.getElementById("lockArea");
+
+        const alreadySeen = localStorage.getItem("image_seen");
+
+        // Already viewed?
+        if (alreadySeen === "yes") {
+            lockArea.style.display = "none";
+            message.innerHTML = "❌ You only see once a image, sorry there is no use to refresh. . .";
+        }
+
+        function unlock() {
+            const input = document.getElementById("unlockCode").value;
+
+            if (input.length !== 10) {
+                alert("❗ Enter exactly 10 digits.");
+                return;
+            }
+
+            if (input !== CORRECT_CODE) {
+                alert("❌ Incorrect code!");
+                return;
+            }
+
+            // Hide lock area
+            lockArea.style.display = "none";
+
+            // Show image
+            image.style.display = "block";
+            message.innerHTML = "Don't take screenshot Bro . . .";
+
+            // Hide after 2 sec and block permanently
+            setTimeout(() => {
+                image.style.display = "none";
+                message.innerHTML = "⛔ Image hidden forever on this device.";
+                localStorage.setItem("image_seen", "yes");
+            }, 5000);
+        }
+    </script>
+
+</body>
+
+</html>
